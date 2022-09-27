@@ -64,7 +64,7 @@ namespace NZWEBAPI.Controllers
 
             var regionObj = mapper.Map<Models.Domain.Region>(addRegionRequest);
 
-            var regionsDTO = await rep.AddAsync(regionObj);           
+            var regionsDTO = await rep.AddRegionAsync(regionObj);           
 
             return CreatedAtAction("GetByRegionByIdAsync", new { Id = regionsDTO.Id }, regionsDTO);
 

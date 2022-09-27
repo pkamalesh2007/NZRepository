@@ -8,7 +8,7 @@ namespace NZWEBAPI.Repositories
 
         public Task<Region> GetAsync(Guid Id);
 
-        public Task<Region> AddAsync(Region region);
+        public Task<Region> AddRegionAsync(Region region);
 
         public Task<Region> DeleteAsync(Guid Id);
 

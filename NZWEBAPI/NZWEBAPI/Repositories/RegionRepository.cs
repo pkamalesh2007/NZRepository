@@ -13,9 +13,9 @@ namespace NZWEBAPI.Repositories
             this.db = db;
         }
 
-        public async Task<Region> AddAsync(Region region)
+        public async Task<Region> AddRegionAsync(Region region)
         {
-            
+            region.Id = new Guid();
             await db.Regions.AddAsync(region);
             await db.SaveChangesAsync();
             return region;
