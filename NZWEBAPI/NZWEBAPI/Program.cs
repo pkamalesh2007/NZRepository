@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NZWEBAPI.Data;
+using NZWEBAPI.Models.Domain;
+using NZWEBAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddControllers(
+    options => {
+        options.SuppressAsyncSuffixInActionNames = false;
+    }
+);
+
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<NZDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZConnectionString"));
 });
+
+builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+
+builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

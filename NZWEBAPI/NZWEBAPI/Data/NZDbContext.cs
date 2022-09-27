@@ -15,6 +15,8 @@ namespace NZWEBAPI.Data
         public DbSet<Walk> Walks { get; set; }
 
         public DbSet<WalkDifficulty> WalkDifficulties  { get; set; }
+
+        public DbSet<NationalPark> NationalParks { get; set; }
     }
     
 }
