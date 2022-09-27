@@ -1,4 +1,5 @@
-﻿using NZWEBAPI.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using NZWEBAPI.Data;
 using NZWEBAPI.Models.Domain;
 
 namespace NZWEBAPI.Repositories
@@ -25,9 +26,7 @@ namespace NZWEBAPI.Repositories
 
         public NationalPark GetNationalPark(int Id)
         {
-           return db.NationalParks.FirstOrDefault(x => x.Id == Id);
-
-            
+           return db.NationalParks.FirstOrDefault(x => x.Id == Id); 
 
 
         }

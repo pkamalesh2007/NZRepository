@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NZWEBAPI.Models.Domain;
+using NZWEBAPI.Models.DTO;
 using NZWEBAPI.Repositories;
 
 namespace NZWEBAPI.Controllers
@@ -43,5 +44,59 @@ namespace NZWEBAPI.Controllers
            var regionsDTO = mapper.Map<List<Models.DTO.Region>>(regions);
             return Ok(regionsDTO);
         }
+
+        [HttpGet("GetByRegionByIdAsync/{Id :Guid}")]
+        public async Task<IActionResult> GetByRegionByIdAsync(Guid Id)
+        {
+
+            var region = await rep.GetAsync(Id);
+
+            var regionsDTO = mapper.Map<Models.DTO.Region>(region);
+            return Ok(regionsDTO);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddRegion([FromBody] AddRegionRequest addRegionRequest)
+        {
+            if (addRegionRequest == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var regionObj = mapper.Map<Models.Domain.Region>(addRegionRequest);
+
+            var regionsDTO = await rep.AddAsync(regionObj);           
+
+            return CreatedAtAction("GetByRegionByIdAsync", new { Id = regionsDTO.Id }, regionsDTO);
+
+        }
+        [HttpDelete("DeleteRegionAsync/{Id :Guid}")]
+        public async Task<IActionResult> DeleteRegionAsync (Guid Id)
+        {
+            
+            var Obj = await rep.DeleteAsync(Id);
+
+            if (Obj == null)
+            {
+                return NotFound();
+            }
+            return Ok(Obj);
+        }
+
+        [HttpPut]
+        [Route("{Id:Guid}")]
+        public async Task<IActionResult> UpdateRegionAsync([FromRoute] Guid Id,[FromBody] UpdateRegionRequest updateRegionRequest)
+        {
+            if (updateRegionRequest == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var obj= mapper.Map<Models.Domain.Region>(updateRegionRequest);
+
+           var objDto= await rep.UpdateAsync(Id, obj);
+
+            return Ok(objDto);
+
+        }
+
     }
 }
