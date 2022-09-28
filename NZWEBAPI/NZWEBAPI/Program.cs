@@ -33,6 +33,8 @@ builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
 //Code for dependency injection for WalkRepository
 builder.Services.AddScoped<IWalkRepository, WalkRepository>();
 
+builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>();
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
