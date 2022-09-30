@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NZWEBAPI.Data;
@@ -20,6 +22,15 @@ builder.Services.AddControllers(
 
 
 builder.Services.AddSwaggerGen();
+//Fluent Validation configurations
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+// endFluent Validation configurations 
+
+//connection string
 builder.Services.AddDbContext<NZDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZConnectionString"));

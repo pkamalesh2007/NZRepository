@@ -14,8 +14,8 @@ namespace NZWEBAPI.Repositories
         }
         public bool CreateNationalParks(NationalPark nationalPark)
         {
-            db.NationalParks.Add(nationalPark);
-            return Save();
+            throw new NotImplementedException();
+
         }
 
         public bool DeleteNationalPark(NationalPark nationalPark)
@@ -26,12 +26,10 @@ namespace NZWEBAPI.Repositories
 
         public NationalPark GetNationalPark(int Id)
         {
-           return db.NationalParks.FirstOrDefault(x => x.Id == Id); 
-
-
+            return db.NationalParks.FirstOrDefault(x => x.Id == Id);
         }
 
-        public ICollection<NationalPark> GetNationalParks()
+        public IEnumerable<NationalPark> GetNationalParks()
         {
             return db.NationalParks.OrderBy(s => s.Name).ToList();
         }
@@ -45,13 +43,13 @@ namespace NZWEBAPI.Repositories
 
         public bool NationalParkExists(int id)
         {
-            bool value= db.NationalParks.Any(x => x.Id == id);
+            bool value = db.NationalParks.Any(x => x.Id == id);
             return value;
         }
 
         public bool Save()
         {
-            return db.SaveChanges() > 0? true:false;
+            return db.SaveChanges() > 0 ? true : false;
         }
 
         public bool UpdateNationalPark(NationalPark nationalPark)

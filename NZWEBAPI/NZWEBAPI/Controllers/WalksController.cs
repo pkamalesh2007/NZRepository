@@ -13,11 +13,15 @@ namespace NZWEBAPI.Controllers
     {
         private readonly IWalkRepository rep;
         private readonly IMapper mapper;
+        private readonly IRegionRepository regionRepository;
+        private readonly IWalkDifficultyRepository walkDifficultyRepository;
 
-        public WalksController(IWalkRepository rep,IMapper mapper)
+        public WalksController(IWalkRepository rep,IMapper mapper,IRegionRepository regionRepository,IWalkDifficultyRepository walkDifficultyRepository)
         {
             this.rep = rep;
             this.mapper = mapper;
+            this.regionRepository = regionRepository;
+            this.walkDifficultyRepository = walkDifficultyRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllWalks()
@@ -41,10 +45,9 @@ namespace NZWEBAPI.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult>AddWalkDetails([FromBody]Models.DTO.WalksRequestDTO walk)
         {
-            if (walk == null)
+            if(!(await ValidateAddWalkDetails(walk)))
             {
                 return BadRequest(ModelState);
             }
@@ -63,7 +66,7 @@ namespace NZWEBAPI.Controllers
         public async Task<IActionResult> UpdateWalkDetails([FromRoute] Guid Id,[FromBody] WalksRequestDTO walksDTO)
         {
 
-            if (walksDTO == null)
+            if(!(await ValidateUpdateWalkDetails(walksDTO)))
             {
                 return BadRequest(ModelState);
             }
@@ -88,5 +91,83 @@ namespace NZWEBAPI.Controllers
 
             return Ok(obj);
         }
+
+        #region private method
+        private async Task<bool> ValidateAddWalkDetails(Models.DTO.WalksRequestDTO walk)
+        {
+            //if(walk == null)
+            //{
+            //    ModelState.AddModelError(nameof(walk), $"Adding the walk details is required");
+            //    return false;
+            //}
+
+            //if(string.IsNullOrWhiteSpace(walk.Name))
+            //{
+            //    ModelState.AddModelError(nameof(walk.Name), $"{nameof(walk.Name)} cannot be null or empty or has white space");
+            //}
+
+            //if (walk.Length <=0)
+            //{
+            //    ModelState.AddModelError(nameof(walk.Length), $"{nameof(walk.Length)} cannot be less or equal to zero");
+            //}
+
+            var region= await regionRepository.GetAsync(walk.RegionId);
+            if(region == null)
+            {
+                ModelState.AddModelError(nameof(walk.RegionId), $"{nameof(walk.RegionId)} does not exists");
+            }
+            var walkrepository = await walkDifficultyRepository.GetWalkDifficultyByIdAsync(walk.WalkDifficultyId);
+            if(walkrepository == null)
+            {
+                ModelState.AddModelError(nameof(walk.WalkDifficultyId), $"{nameof(walk.WalkDifficultyId)} does not exists");
+            }
+
+            if(ModelState.ErrorCount >0)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        private async Task<bool> ValidateUpdateWalkDetails(Models.DTO.WalksRequestDTO walk)
+        {
+            //if (walk == null)
+            //{
+            //    ModelState.AddModelError(nameof(walk), $"Adding the walk details is required");
+            //    return false;
+            //}
+
+            //if (string.IsNullOrWhiteSpace(walk.Name))
+            //{
+            //    ModelState.AddModelError(nameof(walk.Name), $"{nameof(walk.Name)} cannot be null or empty or has white space");
+            //}
+
+            //if (walk.Length <= 0)
+            //{
+            //    ModelState.AddModelError(nameof(walk.Length), $"{nameof(walk.Length)} cannot be less or equal to zero");
+            //}
+
+            var region = await regionRepository.GetAsync(walk.RegionId);
+            if (region == null)
+            {
+                ModelState.AddModelError(nameof(walk.RegionId), $"{nameof(walk.RegionId)} does not exists");
+            }
+            var walkrepository = await walkDifficultyRepository.GetWalkDifficultyByIdAsync(walk.WalkDifficultyId);
+            if (walkrepository == null)
+            {
+                ModelState.AddModelError(nameof(walk.WalkDifficultyId), $"{nameof(walk.WalkDifficultyId)} does not exists");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+        #endregion
     }
 }

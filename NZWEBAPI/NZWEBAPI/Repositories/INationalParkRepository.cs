@@ -4,7 +4,7 @@ namespace NZWEBAPI.Repositories
 {
     public interface INationalParkRepository
     {
-        public ICollection<NationalPark> GetNationalParks();
+        public  IEnumerable<NationalPark> GetNationalParks();
 
         public NationalPark GetNationalPark(int id);
 

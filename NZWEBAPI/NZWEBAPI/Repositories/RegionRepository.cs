@@ -44,8 +44,8 @@ namespace NZWEBAPI.Repositories
 
         public async Task<Region> GetAsync(Guid Id)
         {
-            var region= await db.Regions.FirstOrDefaultAsync(x => x.Id == Id);
-            return region;
+            var regions= await db.Regions.FirstOrDefaultAsync(x => x.Id == Id);
+            return regions;
         }
 
         public async Task<Region> UpdateAsync(Guid Id,Region region)

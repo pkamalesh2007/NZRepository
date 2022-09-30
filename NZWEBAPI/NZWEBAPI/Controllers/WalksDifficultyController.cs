@@ -44,7 +44,7 @@ namespace NZWEBAPI.Controllers
 
         public async Task<IActionResult>CreatWalkDifficultyAsync(Models.DTO.WalkDifficultyDTO walkDifficultyDTO)
         {
-            if(walkDifficultyDTO == null)
+            if(!(await ValidateCreatWalkDifficultyAsync(walkDifficultyDTO)))
             {
                 return BadRequest(ModelState);
             }
@@ -60,9 +60,9 @@ namespace NZWEBAPI.Controllers
         [Route("{Id:Guid}")]
         public async Task<IActionResult>UpdateWalkDifficulty([FromRoute]Guid Id,[FromBody]Models.DTO.WalkDifficultyDTO walkDifficultyDTO)
         {
-            if(walkDifficultyDTO == null)
+            if(! (await ValidateUpdateWalkDifficulty(walkDifficultyDTO)))
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var updateWalkDifficulty= mapper.Map<Models.Domain.WalkDifficulty>(walkDifficultyDTO);
@@ -85,6 +85,47 @@ namespace NZWEBAPI.Controllers
 
             return Ok(deleteWalkDifficulty);
         }
+        #region Private Methods
 
+        private async Task<bool> ValidateCreatWalkDifficultyAsync(Models.DTO.WalkDifficultyDTO walkDifficultyDTO)
+        {
+            if(walkDifficultyDTO==null)
+            {
+                ModelState.AddModelError(nameof(walkDifficultyDTO),"$ Need to add walk difficulty Details");
+                return false;
+            }
+
+            if(string.IsNullOrWhiteSpace(walkDifficultyDTO.Code))
+            {
+                ModelState.AddModelError(nameof(walkDifficultyDTO.Code), $"{nameof(walkDifficultyDTO.Code)} cannot be null or empty or have whitespaces");
+            }
+            if(ModelState.ErrorCount >0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+
+        private async Task<bool> ValidateUpdateWalkDifficulty(Models.DTO.WalkDifficultyDTO walkDifficultyDTO)
+        {
+            if (walkDifficultyDTO == null)
+            {
+                ModelState.AddModelError(nameof(walkDifficultyDTO), "$ Need to add walk difficulty Details");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(walkDifficultyDTO.Code))
+            {
+                ModelState.AddModelError(nameof(walkDifficultyDTO.Code), $"{nameof(walkDifficultyDTO.Code)} cannot be null or empty or have whitespaces");
+            }
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        #endregion
     }
 }
