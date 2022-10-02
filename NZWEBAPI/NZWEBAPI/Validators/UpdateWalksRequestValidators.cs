@@ -1,15 +1,20 @@
 ﻿using FluentValidation;
-using NZWEBAPI.Data;
+using NZWEBAPI.Models.Domain;
 using NZWEBAPI.Models.DTO;
+using NZWEBAPI.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using NZWEBAPI.Data;
 
 namespace NZWEBAPI.Validators
 {
-    public class WalksRequestValidators:AbstractValidator<Models.DTO.WalksRequestDTO>
+    public class UpdateWalksRequestValidators:AbstractValidator<Models.DTO.WalksUpdateRequest>
     {
         private readonly NZDBContext db;
 
-        public WalksRequestValidators(NZDBContext db )
+        public UpdateWalksRequestValidators(NZDBContext db )
         {
+            
             this.db = db;
             RuleFor(x => x.Name).NotEmpty();
             RuleFor(x => x.Length).GreaterThan(0);
@@ -21,13 +26,13 @@ namespace NZWEBAPI.Validators
         private bool ValidateRegionId(Guid regionId)
         {
             var region = db.Regions.Where(x => x.Id == regionId).FirstOrDefault();
-            if (region == null)
+            if(region == null)
             {
                 return false;
             }
             return true;
-
-
+            
+           
 
         }
 
@@ -44,5 +49,20 @@ namespace NZWEBAPI.Validators
 
 
         }
+
+
+        //private  async Task<bool> ValidateUpdateRegionIdAsync(WalksUpdateRequest walksUpdateRequest)
+        //{
+        //    var region = await regionRepository.GetAsync(walksUpdateRequest.RegionId);
+        //    return true;
+        //}
+
+        //private async Task<bool> ValidateUpdateDifficultyId(WalksUpdateRequest walksUpdateRequest)
+        //{
+        //    var walkDifficulty = await walkDifficultyRepository.GetWalkDifficultyByIdAsync(walksUpdateRequest.WalkDifficultyId);
+        //    return true;
+        //}
+
+
     }
 }

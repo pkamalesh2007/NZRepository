@@ -8,7 +8,21 @@ namespace NZWEBAPI.Data
         public NZDBContext(DbContextOptions<NZDBContext> options) : base(options)
         { 
             
-       }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User_Role>().
+                HasOne(x => x.Role).
+                WithMany(x => x.UserRoles).HasForeignKey(x => x.RoleId);
+
+            modelBuilder.Entity<User_Role>().
+                HasOne(x => x.User).
+                WithMany(x => x.UserRoles).HasForeignKey(x => x.UserId);
+
+
+
+        }
 
         public DbSet<Region> Regions { get; set; }
 
@@ -17,6 +31,12 @@ namespace NZWEBAPI.Data
         public DbSet<WalkDifficulty> WalkDifficulties  { get; set; }
 
         public DbSet<NationalPark> NationalParks { get; set; }
+
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<User_Role> Users_Roles { get; set; }
     }
     
 }
