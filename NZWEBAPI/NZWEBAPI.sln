@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NZWEBAPI", "NZWEBAPI\NZWEBAPI.csproj", "{02A1798F-E602-4751-9BAE-294D1DFA2F1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityKeyGenerator", "SecurityKeyGenerator\SecurityKeyGenerator.csproj", "{A1DA5DA9-4EBF-49D9-992E-E6304166C4D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{02A1798F-E602-4751-9BAE-294D1DFA2F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02A1798F-E602-4751-9BAE-294D1DFA2F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02A1798F-E602-4751-9BAE-294D1DFA2F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1DA5DA9-4EBF-49D9-992E-E6304166C4D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1DA5DA9-4EBF-49D9-992E-E6304166C4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1DA5DA9-4EBF-49D9-992E-E6304166C4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1DA5DA9-4EBF-49D9-992E-E6304166C4D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
