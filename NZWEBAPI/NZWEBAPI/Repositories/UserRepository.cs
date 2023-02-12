@@ -7,11 +7,18 @@ namespace NZWEBAPI.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly NZDBContext db;
+        //private string _connectionString;
 
         public UserRepository(NZDBContext db)
         {
             this.db = db;
         }
+
+        //public UserRepository(string connectionString)
+        //{
+        //    _connectionString = connectionString;
+        //}
+
         public async Task<User> AuthenticateAsync(string username, string password)
         {
           var user= await db.Users.FirstOrDefaultAsync(x => x.UserName==username.ToLower().Trim() && x.Password== password);

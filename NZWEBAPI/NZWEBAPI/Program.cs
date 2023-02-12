@@ -9,6 +9,9 @@ using NZWEBAPI.Repositories;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
+using NZWEBAPI.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +59,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 // endFluent Validation configurations 
 
-//connection string
+
 builder.Services.AddDbContext<NZDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("NZConnectionString"));
@@ -75,6 +78,12 @@ builder.Services.AddScoped<IWalkDifficultyRepository, WalkDifficultyRepository>(
 builder.Services.AddScoped<ITokenHandler, NZWEBAPI.Repositories.TokenHandler>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
+//
+
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//builder.Services.AddScoped<IUserRepository>(x => new UserRepository(connectionString));
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
