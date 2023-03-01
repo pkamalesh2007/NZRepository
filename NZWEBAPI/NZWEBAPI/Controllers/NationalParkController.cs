@@ -81,13 +81,17 @@ namespace NZWEBAPI.Controllers
             
             var nationalParkObj=  mapper.Map<Models.Domain.NationalPark>(nationalParkDTO);
 
-            if(!rep.CreateNationalParks(nationalParkObj))
-            {
-                ModelState.AddModelError("", $"Something went wrong while saving the record {nationalParkObj.Name}");
-                return StatusCode(500, ModelState);
-            }
+            var NationalParkDTO = rep.CreateNationalParks(nationalParkObj);
 
-            return CreatedAtAction(nameof(GetNationalPark), new { Id = nationalParkObj.Id }, nationalParkObj);
+            return Ok(NationalParkDTO);
+
+            //if(!rep.CreateNationalParks(nationalParkObj))
+            //{
+            //    ModelState.AddModelError("", $"Something went wrong while saving the record {nationalParkObj.Name}");
+            //    return StatusCode(500, ModelState);
+            //}
+
+            //return CreatedAtAction(nameof(GetNationalPark), new { Id = nationalParkObj.Id }, nationalParkObj);
 
         }
 

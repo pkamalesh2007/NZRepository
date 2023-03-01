@@ -12,7 +12,7 @@ namespace NZWEBAPI.Repositories
 
         public bool NationalParkExists(int id);
 
-        public bool CreateNationalParks(NationalPark nationalPark);
+        public NationalPark CreateNationalParks(NationalPark nationalPark);
 
         public bool UpdateNationalPark(NationalPark nationalPark);
 

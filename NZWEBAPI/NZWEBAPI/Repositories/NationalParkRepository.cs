@@ -12,11 +12,7 @@ namespace NZWEBAPI.Repositories
         {
             this.db = db;
         }
-        public bool CreateNationalParks(NationalPark nationalPark)
-        {
-            throw new NotImplementedException();
-
-        }
+        
 
         public bool DeleteNationalPark(NationalPark nationalPark)
         {
@@ -56,6 +52,13 @@ namespace NZWEBAPI.Repositories
         {
             db.NationalParks.Update(nationalPark);
             return Save();
+        }
+
+        public NationalPark CreateNationalParks(NationalPark nationalPark)
+        {
+            db.NationalParks.AddAsync(nationalPark);
+            Save();
+            return nationalPark;
         }
     }
 }
